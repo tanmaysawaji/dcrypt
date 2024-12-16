@@ -2,8 +2,8 @@ import base64
 import pytest
 from cryptography.hazmat.primitives.asymmetric import ec
 from cryptography.hazmat.primitives import serialization
-from client.utils import generate_keys, derive_shared_key
-from client.exceptions import KeyGenerationError, KeyExchangeError
+from crypt.handshake import generate_keys, derive_shared_key
+from crypt.exceptions import KeyExchangeError
 
 
 def test_generate_keys():

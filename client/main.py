@@ -11,3 +11,5 @@ if __name__ == "__main__":
     except Exception as e:
         raise ClientError(f"Error: {e}")
     print(f"Symmetric key: {symmetric_key.hex()}")
+
+# Usage: python -m client.main

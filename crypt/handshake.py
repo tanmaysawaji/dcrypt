@@ -4,7 +4,7 @@ from cryptography.hazmat.primitives.asymmetric.ec import EllipticCurvePrivateKey
 from cryptography.hazmat.primitives.kdf.hkdf import HKDF
 from cryptography.hazmat.primitives import hashes, serialization
 
-from client.exceptions import KeyGenerationError, KeyExchangeError
+from crypt.exceptions import KeyGenerationError, KeyExchangeError
 
 
 def generate_keys() -> tuple[EllipticCurvePrivateKey, str]:
@@ -30,13 +30,13 @@ def generate_keys() -> tuple[EllipticCurvePrivateKey, str]:
 
 
 def derive_shared_key(
-    private_key: EllipticCurvePrivateKey, server_public_key_b64: str
+    private_key: EllipticCurvePrivateKey, remote_public_key_b64: str
 ) -> bytes:
     """
     Derive a shared symmetric key using ECDH with the server's public key.
 
     Args:
-        private_key (EllipticCurvePrivateKey): Client's private key.
+        private_key (EllipticCurvePrivateKey): Private key.
         server_public_key_b64 (str): Server's base64-encoded public key.
 
     Returns:
@@ -46,11 +46,11 @@ def derive_shared_key(
         KeyExchangeError: If the shared key derivation fails.
     """
     try:
-        server_public_key_bytes = base64.b64decode(server_public_key_b64)
-        server_public_key = ec.EllipticCurvePublicKey.from_encoded_point(
-            ec.SECP256R1(), server_public_key_bytes
+        remote_public_key_bytes = base64.b64decode(remote_public_key_b64)
+        remote_public_key = ec.EllipticCurvePublicKey.from_encoded_point(
+            ec.SECP256R1(), remote_public_key_bytes
         )
-        shared_secret = private_key.exchange(ec.ECDH(), server_public_key)
+        shared_secret = private_key.exchange(ec.ECDH(), remote_public_key)
         shared_key = HKDF(
             algorithm=hashes.SHA256(), length=32, salt=None, info=b"handshake data"
         ).derive(shared_secret)

@@ -1,6 +1,7 @@
 import requests
-from client.utils import generate_keys, derive_shared_key
-from client.exceptions import ServerConnectionError, KeyExchangeError
+from crypt.handshake import generate_keys, derive_shared_key
+from client.exceptions import ServerConnectionError
+from crypt.exceptions import KeyExchangeError
 
 
 def initiate_connection(server_url: str) -> bytes:

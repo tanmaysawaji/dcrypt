@@ -2,7 +2,8 @@ import pytest
 import requests
 from unittest.mock import Mock
 from client.api.communication import initiate_connection
-from client.exceptions import ServerConnectionError, KeyExchangeError
+from client.exceptions import ServerConnectionError
+from crypt.exceptions import KeyExchangeError
 
 
 def test_initiate_connection_success(mocker):
