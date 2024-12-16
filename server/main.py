@@ -56,3 +56,6 @@ async def connect(client_key: ClientPublicKey):
 
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Error: {str(e)}")
+
+
+# Usage: uvicorn server.main:app --reload
